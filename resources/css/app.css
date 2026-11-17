@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*
+ * Design tokens.
+ * The page is quiet: cool snow, deep ink, one flag-red accent.
+ * The five prayer-flag colours (blue, white, red, green, yellow) are kept
+ * for the API console, the one place the page is allowed to be loud.
+ */
+@theme {
+    --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+    --color-snow: #f2f4f7;
+    --color-paper: #ffffff;
+    --color-ink: #0f1626;
+    --color-slate: #526074;
+    --color-line: #d5dae2;
+    --color-night: #0c1222;
+    --color-flag: #c4202f;
+    --color-flag-dark: #9f1a27;
+    --color-sky: #6ea8ff;
+    --color-leaf: #5cd6a0;
+    --color-sun: #f5c84c;
+    --color-coral: #ff7080;
+}
+
+/* ---------- Base ---------- */
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { background: var(--color-snow); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+::selection { background: var(--color-flag); color: #fff; }
+:focus-visible { outline: 3px solid var(--color-flag); outline-offset: 3px; border-radius: 4px; }
+a { text-underline-offset: 0.2em; }
+
+.skip { position: absolute; left: -999px; top: 0; background: var(--color-ink); color: #fff; padding: 0.5rem 1rem; z-index: 50; }
+.skip:focus { left: 1rem; top: 1rem; }
+
+.wrap { max-width: 64rem; margin-inline: auto; padding-inline: 1.25rem; }
+.link { color: var(--color-flag); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; }
+.link:hover { color: var(--color-flag-dark); text-decoration-thickness: 2px; }
+
+/* ---------- Buttons and fields ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font: 600 0.95rem/1 var(--font-sans); padding: 0.8rem 1.25rem; border-radius: 8px; border: 1.5px solid var(--color-ink); background: transparent; color: var(--color-ink); cursor: pointer; text-decoration: none; }
+.btn:hover { background: var(--color-ink); color: #fff; }
+.btn-primary { background: var(--color-flag); border-color: var(--color-flag); color: #fff; }
+.btn-primary:hover { background: var(--color-flag-dark); border-color: var(--color-flag-dark); }
+.btn-danger { border-color: var(--color-flag); color: var(--color-flag); }
+.btn-danger:hover { background: var(--color-flag); color: #fff; }
+.btn-small { padding: 0.45rem 0.8rem; font-size: 0.85rem; }
+
+.input { width: 100%; background: var(--color-paper); border: 1.5px solid var(--color-line); border-radius: 8px; padding: 0.7rem 0.85rem; font: inherit; color: var(--color-ink); }
+.input:focus { border-color: var(--color-ink); outline: none; box-shadow: 0 0 0 3px rgba(196, 32, 47, 0.25); }
+textarea.input { min-height: 7rem; resize: vertical; }
+
+.field { margin-bottom: 1.25rem; }
+.field > label, .label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; }
+.hint { color: var(--color-slate); font-size: 0.85rem; margin-top: 0.3rem; }
+.error { color: var(--color-flag); font-size: 0.875rem; margin-top: 0.3rem; font-weight: 500; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.notice { border-left: 4px solid var(--color-leaf); background: #e8f7f0; padding: 0.75rem 1rem; border-radius: 0 8px 8px 0; font-weight: 500; }
+
+/* ---------- Chips ---------- */
+.tag { display: inline-block; font: 500 0.78rem/1 var(--font-mono); background: #e4e8ee; color: #34405a; padding: 0.35rem 0.55rem; border-radius: 5px; }
+.tag-lang { background: var(--color-ink); color: #fff; }
+
+/* ---------- Project covers (when there is no picture yet) ---------- */
+.cover-fallback { display: grid; place-items: center; width: 100%; height: 100%; color: rgba(255, 255, 255, 0.92); font: 600 3.5rem/1 var(--font-serif); }
+.cover-blue { background: linear-gradient(140deg, #14203d, #2d57a8); }
+.cover-green { background: linear-gradient(140deg, #0f2a26, #1f8062); }
+.cover-yellow { background: linear-gradient(140deg, #2b2410, #a3801b); }
+.cover-red { background: linear-gradient(140deg, #2a0f16, #b02438); }
+
+/* ---------- The API console: the one memorable thing ---------- */
+.console { background: var(--color-night); color: #dce3f2; border-radius: 14px; overflow: hidden; box-shadow: 0 28px 50px -28px rgba(12, 18, 34, 0.55); }
+.console :focus-visible { outline-color: var(--color-sun); }
+.console-bar { display: flex; align-items: center; gap: 0.9rem; padding: 0.7rem 1rem; border-bottom: 1px solid #222f4d; font: 500 0.8rem/1 var(--font-mono); color: #93a1bd; }
+.console-status { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.console-status.is-ok b { color: var(--color-leaf); }
+.console-status.is-err b { color: var(--color-coral); }
+.flags { display: flex; gap: 4px; }
+.flags i { display: block; width: 14px; height: 10px; border-radius: 2px; }
+.flags i:nth-child(1) { background: var(--color-sky); }
+.flags i:nth-child(2) { background: #f4f6fa; }
+.flags i:nth-child(3) { background: var(--color-coral); }
+.flags i:nth-child(4) { background: var(--color-leaf); }
+.flags i:nth-child(5) { background: var(--color-sun); }
+.console-copy { font: inherit; color: #93a1bd; background: transparent; border: 1px solid #2c3b5e; border-radius: 6px; padding: 0.4rem 0.6rem; cursor: pointer; }
+.console-copy:hover { color: #fff; border-color: #5b6f9a; }
+.console-out { margin: 0; padding: 1.1rem 1.25rem; min-height: 17rem; max-height: 28rem; overflow: auto; font: 400 0.875rem/1.65 var(--font-mono); white-space: pre-wrap; word-break: break-word; }
+.tok-key { color: var(--color-sky); }
+.tok-str { color: var(--color-leaf); }
+.tok-num { color: var(--color-sun); }
+.tok-lit { color: var(--color-coral); }
+.console-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.85rem 1rem; border-top: 1px solid #222f4d; }
+.console-chip { font: 400 0.82rem/1 var(--font-mono); color: #c3cde2; background: #141d34; border: 1px solid #2a3a5e; border-radius: 6px; padding: 0.5rem 0.7rem; cursor: pointer; }
+.console-chip:hover, .console-chip[aria-pressed='true'] { border-color: var(--color-coral); color: var(--color-coral); }
+.console-input { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid #222f4d; padding: 0.8rem 1rem; font: 500 0.88rem/1 var(--font-mono); color: var(--color-coral); }
+.console-input input { flex: 1; min-width: 0; background: transparent; border: 0; color: #fff; font: inherit; }
+.console-input input::placeholder { color: #5f6f90; }
+.console-input input:focus-visible { outline-offset: 8px; }
+
+/* ---------- Written content (project descriptions) ---------- */
+.prose-lite { max-width: 42rem; font-size: 1.0625rem; line-height: 1.75; }
+.prose-lite p, .prose-lite ul, .prose-lite ol { margin: 0 0 1.1rem; }
+.prose-lite ul { list-style: disc; padding-left: 1.4rem; }
+.prose-lite ol { list-style: decimal; padding-left: 1.4rem; }
+.prose-lite h2, .prose-lite h3 { font-family: var(--font-serif); font-weight: 600; margin: 2rem 0 0.6rem; line-height: 1.2; }
+.prose-lite h2 { font-size: 1.5rem; }
+.prose-lite h3 { font-size: 1.2rem; }
+.prose-lite a { color: var(--color-flag); text-decoration: underline; }
+.prose-lite code { font: 0.9em var(--font-mono); background: #e4e8ee; padding: 0.1rem 0.35rem; border-radius: 4px; }
+.prose-lite pre { background: var(--color-night); color: #dce3f2; padding: 1rem; border-radius: 10px; overflow-x: auto; margin: 0 0 1.1rem; }
+.prose-lite pre code { background: transparent; padding: 0; }
+
+/* ---------- Admin tables ---------- */
+.table { width: 100%; border-collapse: collapse; background: var(--color-paper); border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; font-size: 0.95rem; }
+.table th { text-align: left; font-size: 0.8rem; color: var(--color-slate); font-weight: 600; padding: 0.7rem 0.9rem; background: #eaedf2; }
+.table td { padding: 0.8rem 0.9rem; border-top: 1px solid var(--color-line); vertical-align: middle; }
+.pill { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.55rem; border-radius: 999px; }
+.pill-on { background: #d9f3e8; color: #0b5d3d; }
+.pill-off { background: #e4e8ee; color: #46526a; }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Print: the /cv page ---------- */
+@media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    .no-print, .site-header, .site-footer, .skip { display: none !important; }
+    .cv a { color: #000; text-decoration: none; }
+    .cv section { break-inside: avoid; }
+}
