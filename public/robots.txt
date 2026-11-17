@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /admin
+
+Sitemap: https://aizen-portfolio.onrender.com/sitemap.xml
